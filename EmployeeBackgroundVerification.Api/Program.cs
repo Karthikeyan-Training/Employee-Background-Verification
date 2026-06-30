@@ -30,6 +30,8 @@ builder.Services.AddHttpClient<IOllamaService, OllamaService>((sp, client) =>
 
 // Document extraction service (uses Ollama)
 builder.Services.AddScoped<IDocumentExtractionService, DocumentExtractionService>();
+// Verification service
+builder.Services.AddScoped<IVerificationService, VerificationService>();
 
 var app = builder.Build();
 
