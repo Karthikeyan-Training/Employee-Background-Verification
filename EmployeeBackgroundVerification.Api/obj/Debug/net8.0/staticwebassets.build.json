@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "rWLU1kEL2g3T0RwBcI9s26pnYcH/yaJzCSudWLaXqwI=",
+  "Source": "EmployeeBackgroundVerification.Api",
+  "BasePath": "_content/EmployeeBackgroundVerification.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
