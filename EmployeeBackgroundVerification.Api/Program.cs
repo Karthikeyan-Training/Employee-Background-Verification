@@ -1,6 +1,8 @@
+using System;
 using EmployeeBackgroundVerification.Api.Models;
 using EmployeeBackgroundVerification.Api.Services;
 using EmployeeBackgroundVerification.Api.Services.Interfaces;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,17 @@ builder.Services.AddScoped<IBackgroundVerificationService, BackgroundVerificatio
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IDocumentStorageService, DocumentStorageService>();
 builder.Services.AddScoped<IOcrService, OcrService>();
+builder.Services.Configure<OllamaSettings>(builder.Configuration.GetSection("Ollama"));
+
+builder.Services.AddHttpClient<IOllamaService, OllamaService>((sp, client) =>
+{
+    var opts = sp.GetRequiredService<IOptions<OllamaSettings>>().Value;
+    if (!string.IsNullOrWhiteSpace(opts.BaseUrl))
+    {
+        client.BaseAddress = new Uri(opts.BaseUrl);
+    }
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
 
 var app = builder.Build();
 
