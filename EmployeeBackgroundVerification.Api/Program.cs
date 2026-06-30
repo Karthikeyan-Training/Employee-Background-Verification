@@ -12,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<BackgroundVerificationSettings>(builder.Configuration.GetSection("BackgroundVerification"));
 builder.Services.Configure<DocumentUploadSettings>(builder.Configuration.GetSection("DocumentUpload"));
+builder.Services.Configure<OllamaSettings>(builder.Configuration.GetSection("Ollama"));
+builder.Services.Configure<FraudDetectionSettings>(builder.Configuration.GetSection("FraudDetection"));
 builder.Services.AddScoped<IBackgroundVerificationService, BackgroundVerificationService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IDocumentStorageService, DocumentStorageService>();
@@ -32,6 +34,8 @@ builder.Services.AddHttpClient<IOllamaService, OllamaService>((sp, client) =>
 builder.Services.AddScoped<IDocumentExtractionService, DocumentExtractionService>();
 // Verification service
 builder.Services.AddScoped<IVerificationService, VerificationService>();
+// Fraud detection service
+builder.Services.AddScoped<IFraudDetectionService, FraudDetectionService>();
 
 var app = builder.Build();
 
