@@ -28,6 +28,9 @@ builder.Services.AddHttpClient<IOllamaService, OllamaService>((sp, client) =>
     client.Timeout = TimeSpan.FromSeconds(30);
 });
 
+// Document extraction service (uses Ollama)
+builder.Services.AddScoped<IDocumentExtractionService, DocumentExtractionService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
