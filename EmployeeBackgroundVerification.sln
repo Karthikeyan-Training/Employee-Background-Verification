@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBackgroundVerification.Api", "EmployeeBackgroundVerification.Api\EmployeeBackgroundVerification.Api.csproj", "{5906B62C-C8AF-459A-B1E0-8F938B63A131}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBackgroundVerification.Tests", "EmployeeBackgroundVerification.Tests\EmployeeBackgroundVerification.Tests.csproj", "{FB13489E-1D02-41CD-8490-4787FCE64F6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{5906B62C-C8AF-459A-B1E0-8F938B63A131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5906B62C-C8AF-459A-B1E0-8F938B63A131}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5906B62C-C8AF-459A-B1E0-8F938B63A131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB13489E-1D02-41CD-8490-4787FCE64F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB13489E-1D02-41CD-8490-4787FCE64F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB13489E-1D02-41CD-8490-4787FCE64F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB13489E-1D02-41CD-8490-4787FCE64F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

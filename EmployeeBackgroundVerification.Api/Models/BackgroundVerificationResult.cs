@@ -9,5 +9,8 @@ public sealed class BackgroundVerificationResult
     public string VerificationLevel { get; init; } = string.Empty;
     public string Status { get; init; } = string.Empty;
     public string Summary { get; init; } = string.Empty;
+    public int RiskScore { get; init; }
+    public string RiskLevel { get; init; } = string.Empty;
+    public string Recommendation { get; init; } = string.Empty;
     public DateTime CompletedOn { get; init; }
 }

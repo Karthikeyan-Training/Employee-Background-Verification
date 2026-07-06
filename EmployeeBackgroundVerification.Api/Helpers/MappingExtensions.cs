@@ -25,6 +25,9 @@ public static class MappingExtensions
             VerificationLevel = result.VerificationLevel,
             Status = result.Status,
             Summary = result.Summary,
+            RiskScore = result.RiskScore,
+            RiskLevel = result.RiskLevel,
+            Recommendation = result.Recommendation,
             CompletedOn = result.CompletedOn
         };
     }

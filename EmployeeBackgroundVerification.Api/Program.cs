@@ -14,6 +14,7 @@ builder.Services.Configure<BackgroundVerificationSettings>(builder.Configuration
 builder.Services.Configure<DocumentUploadSettings>(builder.Configuration.GetSection("DocumentUpload"));
 builder.Services.Configure<OllamaSettings>(builder.Configuration.GetSection("Ollama"));
 builder.Services.Configure<FraudDetectionSettings>(builder.Configuration.GetSection("FraudDetection"));
+builder.Services.Configure<RiskScoringSettings>(builder.Configuration.GetSection("RiskScoring"));
 builder.Services.AddScoped<IBackgroundVerificationService, BackgroundVerificationService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IDocumentStorageService, DocumentStorageService>();
@@ -36,6 +37,8 @@ builder.Services.AddScoped<IDocumentExtractionService, DocumentExtractionService
 builder.Services.AddScoped<IVerificationService, VerificationService>();
 // Fraud detection service
 builder.Services.AddScoped<IFraudDetectionService, FraudDetectionService>();
+// Risk scoring service
+builder.Services.AddScoped<IRiskScoringService, RiskScoringService>();
 
 var app = builder.Build();
 
