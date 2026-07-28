@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {}
+    "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
+    "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
+        "projectUniqueName": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
         "projectName": "EmployeeBackgroundVerification.Api",
-        "projectPath": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
-        "packagesPath": "C:\\Users\\karthikeyan.ganesan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\obj\\",
+        "projectPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
+        "packagesPath": "C:\\Users\\traininguser8\\.nuget\\packages\\",
+        "outputPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\karthikeyan.ganesan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\traininguser8\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -37,10 +38,12 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
@@ -63,6 +66,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.29, 8.0.29]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.29, 8.0.29]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.29, 8.0.29]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.29, 8.0.29]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -71,21 +92,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.419/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {
+    "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
+        "projectUniqueName": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
         "projectName": "EmployeeBackgroundVerification.Tests",
-        "projectPath": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
-        "packagesPath": "C:\\Users\\karthikeyan.ganesan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\obj\\",
+        "projectPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
+        "packagesPath": "C:\\Users\\traininguser8\\.nuget\\packages\\",
+        "outputPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\karthikeyan.ganesan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\traininguser8\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -95,10 +116,11 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
-                "projectPath": "C:\\Users\\karthikeyan.ganesan\\Desktop\\Karthik - Training\\EmployeeBackgroundVerification\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj"
+              "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
+                "projectPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj"
               }
             }
           }
@@ -112,10 +134,12 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
@@ -146,12 +170,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.29, 8.0.29]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.29, 8.0.29]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.29, 8.0.29]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.419/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -15,6 +15,7 @@ builder.Services.Configure<DocumentUploadSettings>(builder.Configuration.GetSect
 builder.Services.Configure<OllamaSettings>(builder.Configuration.GetSection("Ollama"));
 builder.Services.Configure<FraudDetectionSettings>(builder.Configuration.GetSection("FraudDetection"));
 builder.Services.Configure<RiskScoringSettings>(builder.Configuration.GetSection("RiskScoring"));
+builder.Services.Configure<ModelEvaluationSettings>(builder.Configuration.GetSection("ModelEvaluation"));
 builder.Services.AddScoped<IBackgroundVerificationService, BackgroundVerificationService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IDocumentStorageService, DocumentStorageService>();
@@ -39,6 +40,17 @@ builder.Services.AddScoped<IVerificationService, VerificationService>();
 builder.Services.AddScoped<IFraudDetectionService, FraudDetectionService>();
 // Risk scoring service
 builder.Services.AddScoped<IRiskScoringService, RiskScoringService>();
+// Report generation service (uses Ollama)
+builder.Services.AddScoped<IReportGenerationService, ReportGenerationService>();
+// Model evaluation service
+builder.Services.AddHttpClient("ModelEvaluation");
+builder.Services.AddScoped<IModelEvaluationService, ModelEvaluationService>();
+// Prompt experiment service
+builder.Services.AddScoped<IPromptExperimentService, PromptExperimentService>();
+// Project report service (generates + saves full Markdown report)
+builder.Services.AddScoped<IProjectReportService, ProjectReportService>();
+// Synthetic data service
+builder.Services.AddSingleton<ISyntheticDataService, SyntheticDataService>();
 
 var app = builder.Build();
 
