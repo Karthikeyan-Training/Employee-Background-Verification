@@ -70,8 +70,8 @@ public class DemoController : ControllerBase
     public async Task<ActionResult<DemoRunResponseDto>> RunAsync(
         [FromForm] IEnumerable<IFormFile> files,
         [FromForm] string candidateName,
-        [FromForm] string email,
-        [FromForm] string position,
+        [FromForm] string? email,
+        [FromForm] string? position,
         [FromForm] bool criminalRecordCheck = false,
         CancellationToken cancellationToken = default)
     {
@@ -155,6 +155,14 @@ public class DemoController : ControllerBase
 
         steps.Add(Step("3. LLM Field Extraction", "Completed", sw,
             $"Extracted fields from {documentSources.Count} document source(s)"));
+
+        // Inject candidateName as an "Application Form" source so verification
+        // cross-checks every uploaded document's extracted name against the declared name.
+        documentSources.Add(new DocumentSource
+        {
+            SourceName = "Application Form",
+            Details    = new DocumentDetails { FullName = candidateName }
+        });
 
         // ── Step 4: Cross-Document Verification ───────────────────────────────
         VerificationResult verificationResult;

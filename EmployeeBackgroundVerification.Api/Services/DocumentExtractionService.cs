@@ -66,10 +66,19 @@ public class DocumentExtractionService : IDocumentExtractionService
 
     private static string BuildPrompt(string ocrText)
     {
-        // Instruct model to return valid JSON only with the specified keys.
-        return $"Extract the following fields from the provided document text and return valid JSON only (no commentary). " +
-               "Fields: fullName, dateOfBirth (ISO yyyy-MM-dd if possible), address, aadhaarNumber, panNumber, degree, university, companyName. " +
-               "If a field is not present, return an empty string for that field. " +
+        // Instruct model to extract labeled fields only — not document headers or authority names.
+        return "You are an information extraction engine. Extract ONLY the following fields from the document text below and return valid JSON with no commentary.\n" +
+               "Rules:\n" +
+               "- fullName: the individual person's full name (look for a line like 'Name : <value>'). Do NOT use document titles, government names, authority names, or organisation names.\n" +
+               "- dateOfBirth: the person's date of birth in ISO yyyy-MM-dd format (look for 'Date of Birth : <value>' or 'DOB : <value>').\n" +
+               "- address: the person's residential address (look for 'Address : <value>').\n" +
+               "- aadhaarNumber: 12-digit Aadhaar number (look for 'Aadhaar No. : <value>' or 'Aadhaar : <value>').\n" +
+               "- panNumber: 10-character PAN number (look for 'PAN : <value>').\n" +
+               "- degree: academic qualification (look for 'Degree : <value>').\n" +
+               "- university: educational institution name (look for 'University : <value>').\n" +
+               "- companyName: employer or organisation name (look for 'Organisation : <value>' or 'Company : <value>').\n" +
+               "If a field is not present in the document, return an empty string for that field.\n" +
+               "Return only a JSON object with exactly these keys: fullName, dateOfBirth, address, aadhaarNumber, panNumber, degree, university, companyName.\n" +
                "Document text:\n" + ocrText;
     }
 
@@ -185,27 +194,41 @@ public class DocumentExtractionService : IDocumentExtractionService
 
     private static string ExtractName(string text)
     {
-        // Heuristic: first non-empty line with letters (avoid lines containing 'DOB' 'Date' 'PAN' etc.)
+        // Priority 1: look for an explicit 'Name : <value>' labeled field.
+        // This handles Aadhaar, PAN and Resume formats that use 'Name : Arjun Mehta'.
+        var labeled = Regex.Match(text, @"(?im)^\s*Name\s*:\s*(.+)$");
+        if (labeled.Success)
+        {
+            var candidate = labeled.Groups[1].Value.Trim();
+            // Reject if it looks like an organisation header (contains '/', 'GOVT', 'INDIA', 'AUTHORITY')
+            var upper = candidate.ToUpperInvariant();
+            if (!upper.Contains("/") && !upper.Contains("GOVT") && !upper.Contains("INDIA") &&
+                !upper.Contains("AUTHORITY") && !upper.Contains("DEPARTMENT"))
+            {
+                return candidate;
+            }
+        }
+
+        // Priority 2: scan lines, skip known header keywords and authority names.
+        var skipPatterns = new[]
+        {
+            "government", "dept", "department", "authority", "ministry",
+            "income tax", "uidai", "aadhaar", "permanent account", "curriculum",
+            "resume", "vitae", "/", "india", "bharat"
+        };
+
         var lines = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var line in lines)
         {
             var trimmed = line.Trim();
             if (string.IsNullOrEmpty(trimmed)) continue;
             var low = trimmed.ToLowerInvariant();
-            if (low.Contains("dob") || low.Contains("date") || low.Contains("pan") || low.Contains("aadhaar") || low.Contains("name:") )
-            {
-                // try to capture after colon
-                var idx = trimmed.IndexOf(':');
-                if (idx >= 0 && idx + 1 < trimmed.Length)
-                {
-                    var candidate = trimmed.Substring(idx + 1).Trim();
-                    if (candidate.Length > 1) return candidate;
-                }
-                continue;
-            }
 
-            // Prefer lines with letters and at least one space (first + last name)
-            if (Regex.IsMatch(trimmed, "[A-Za-z]") && trimmed.Contains(' '))
+            if (skipPatterns.Any(p => low.Contains(p))) continue;
+            if (low.Contains("dob") || low.Contains("date") || low.Contains("pan") || low.Contains("address")) continue;
+
+            // A person's name: only letters and spaces, at least two words, no digits
+            if (Regex.IsMatch(trimmed, @"^[A-Za-z]+(\s[A-Za-z]+)+$"))
             {
                 return trimmed;
             }

@@ -16,7 +16,7 @@ using EmployeeBackgroundVerification.Api.Services.Interfaces;
 
 public class DocumentStorageService : IDocumentStorageService
 {
-    private static readonly string[] AllowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+    private static readonly string[] AllowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png", ".txt" };
     private readonly DocumentUploadSettings _settings;
     private readonly string _documentsRootPath;
 
