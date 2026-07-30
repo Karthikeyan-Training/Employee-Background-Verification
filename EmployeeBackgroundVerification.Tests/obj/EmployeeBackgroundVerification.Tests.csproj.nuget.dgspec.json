@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {}
+    "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {}
   },
   "projects": {
-    "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
+    "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
+        "projectUniqueName": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
         "projectName": "EmployeeBackgroundVerification.Api",
-        "projectPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
+        "projectPath": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj",
         "packagesPath": "C:\\Users\\traininguser8\\.nuget\\packages\\",
-        "outputPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\obj\\",
+        "outputPath": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\traininguser8\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -96,14 +96,14 @@
         }
       }
     },
-    "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {
+    "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
+        "projectUniqueName": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
         "projectName": "EmployeeBackgroundVerification.Tests",
-        "projectPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
+        "projectPath": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\EmployeeBackgroundVerification.Tests.csproj",
         "packagesPath": "C:\\Users\\traininguser8\\.nuget\\packages\\",
-        "outputPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\obj\\",
+        "outputPath": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\traininguser8\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -119,8 +119,8 @@
             "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {
-              "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
-                "projectPath": "e:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj"
+              "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj": {
+                "projectPath": "E:\\KarthikeyanG\\Employee-Background-Verification\\EmployeeBackgroundVerification.Api\\EmployeeBackgroundVerification.Api.csproj"
               }
             }
           }

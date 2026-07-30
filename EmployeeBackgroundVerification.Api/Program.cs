@@ -6,6 +6,17 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Allow the React dev server (CRA default port 3000) to call this API
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactDevPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -61,6 +72,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("ReactDevPolicy");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
