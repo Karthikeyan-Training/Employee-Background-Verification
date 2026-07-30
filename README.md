@@ -1,9 +1,5 @@
 # AI Employee Background Verification System
 
-**A Proof of Concept solution demonstrating AI-powered employee background verification with multi-document analysis, fraud detection, and risk assessment.**
-
----
-
 ## 1. Project Overview
 
 ### Project Objective
