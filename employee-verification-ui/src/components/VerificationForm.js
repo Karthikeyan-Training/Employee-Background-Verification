@@ -1,13 +1,55 @@
 import React, { useState, useRef } from 'react';
 
 const ACCEPTED_TYPES = '.pdf,.jpg,.jpeg,.png';
+const REQUIRED_DOCUMENTS = ['Aadhaar', 'PAN', 'Resume'];
+
+function inferDocumentType(fileName) {
+  const baseName = fileName.replace(/\.[^.]+$/, '').toLowerCase();
+
+  if (baseName.includes('aadhaar')) {
+    return 'Aadhaar';
+  }
+
+  if (/(^|[^a-z])pan([^a-z]|$)/.test(baseName)) {
+    return 'PAN';
+  }
+
+  if (baseName.includes('resume') || /(^|[^a-z])cv([^a-z]|$)/.test(baseName)) {
+    return 'Resume';
+  }
+
+  return null;
+}
+
+function createFileEntry(file) {
+  return {
+    id: `${file.name}-${file.size}-${file.lastModified}`,
+    file,
+    documentType: inferDocumentType(file.name),
+  };
+}
+
+function buildUploadFileName(entry, occurrenceByType) {
+  const extensionMatch = entry.file.name.match(/\.[^.]+$/);
+  const extension = extensionMatch ? extensionMatch[0] : '';
+
+  if (!entry.documentType) {
+    return entry.file.name;
+  }
+
+  const nextCount = (occurrenceByType[entry.documentType] || 0) + 1;
+  occurrenceByType[entry.documentType] = nextCount;
+
+  return nextCount === 1
+    ? `${entry.documentType}${extension}`
+    : `${entry.documentType}-${nextCount}${extension}`;
+}
 
 export default function VerificationForm({ onSubmit, loading }) {
   const [fields, setFields] = useState({
     candidateName: '',
     email: '',
     position: '',
-    criminalRecordCheck: false,
   });
   const [files, setFiles] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -22,17 +64,26 @@ export default function VerificationForm({ onSubmit, loading }) {
   };
 
   const handleFileChange = (e) => {
-    const selected = Array.from(e.target.files);
-    setFiles(selected);
+    const selected = Array.from(e.target.files).map(createFileEntry);
+
+    setFiles((prev) => {
+      const existingIds = new Set(prev.map((entry) => entry.id));
+      const nextEntries = selected.filter((entry) => !existingIds.has(entry.id));
+      return [...prev, ...nextEntries];
+    });
+
     if (validationErrors.files) {
       setValidationErrors((prev) => ({ ...prev, files: null }));
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
   const removeFile = (index) => {
     setFiles((prev) => {
       const updated = prev.filter((_, i) => i !== index);
-      // keep the input in sync
       if (updated.length === 0 && fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -46,7 +97,26 @@ export default function VerificationForm({ onSubmit, loading }) {
     if (fields.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
       errors.email = 'Enter a valid email address.';
     }
-    if (files.length === 0) errors.files = 'Please upload at least one document.';
+
+    if (files.length === 0) {
+      errors.files = 'Please upload at least one document.';
+      return errors;
+    }
+
+    const providedDocumentTypes = new Set(
+      files
+        .map((entry) => entry.documentType)
+        .filter(Boolean)
+    );
+
+    const missingDocuments = REQUIRED_DOCUMENTS.filter(
+      (documentName) => !providedDocumentTypes.has(documentName)
+    );
+
+    if (missingDocuments.length > 0) {
+      errors.files = `Missing mandatory documents: ${missingDocuments.join(', ')}.`;
+    }
+
     return errors;
   };
 
@@ -62,8 +132,12 @@ export default function VerificationForm({ onSubmit, loading }) {
     formData.append('candidateName', fields.candidateName.trim());
     formData.append('email', fields.email.trim());
     formData.append('position', fields.position.trim());
-    formData.append('criminalRecordCheck', fields.criminalRecordCheck);
-    files.forEach((file) => formData.append('files', file));
+
+    const occurrenceByType = {};
+    files.forEach((entry) => {
+      const uploadFileName = buildUploadFileName(entry, occurrenceByType);
+      formData.append('files', entry.file, uploadFileName);
+    });
 
     onSubmit(formData);
   };
@@ -137,24 +211,6 @@ export default function VerificationForm({ onSubmit, loading }) {
               />
             </div>
 
-            {/* Criminal Record Check */}
-            <div className="col-md-6 d-flex align-items-end">
-              <div className="form-check mb-2">
-                <input
-                  type="checkbox"
-                  id="criminalRecordCheck"
-                  name="criminalRecordCheck"
-                  className="form-check-input"
-                  checked={fields.criminalRecordCheck}
-                  onChange={handleChange}
-                  disabled={loading}
-                />
-                <label htmlFor="criminalRecordCheck" className="form-check-label">
-                  Include Criminal Record Check
-                </label>
-              </div>
-            </div>
-
             {/* File Upload */}
             <div className="col-12">
               <label htmlFor="files" className="form-label">
@@ -177,28 +233,36 @@ export default function VerificationForm({ onSubmit, loading }) {
               {validationErrors.files && (
                 <div className="invalid-feedback">{validationErrors.files}</div>
               )}
+              <div className="form-text">
+                Required document types: Aadhaar, PAN, and Resume. These are detected from the selected filenames.
+              </div>
             </div>
 
             {/* Selected files list */}
             {files.length > 0 && (
               <div className="col-12">
                 <ul className="list-group list-group-flush">
-                  {files.map((file, index) => (
+                  {files.map((entry, index) => (
                     <li
-                      key={index}
+                      key={entry.id}
                       className="list-group-item d-flex justify-content-between align-items-center px-0 py-1"
                     >
-                      <span className="text-truncate me-2" style={{ fontSize: '0.875rem' }}>
-                        <i className="bi bi-file-earmark me-1 text-secondary"></i>
-                        {file.name}
-                        <span className="text-muted ms-2">({formatBytes(file.size)})</span>
-                      </span>
+                      <div className="text-truncate me-2" style={{ fontSize: '0.875rem' }}>
+                        <span>
+                          <i className="bi bi-file-earmark me-1 text-secondary"></i>
+                          {entry.file.name}
+                          <span className="text-muted ms-2">({formatBytes(entry.file.size)})</span>
+                        </span>
+                        <span className={`badge ms-2 ${entry.documentType ? 'bg-light text-dark border' : 'bg-warning-subtle text-warning border border-warning-subtle'}`}>
+                          {entry.documentType || 'Unrecognized'}
+                        </span>
+                      </div>
                       <button
                         type="button"
                         className="btn btn-sm btn-outline-danger"
                         onClick={() => removeFile(index)}
                         disabled={loading}
-                        aria-label={`Remove ${file.name}`}
+                        aria-label={`Remove ${entry.file.name}`}
                       >
                         <i className="bi bi-x"></i>
                       </button>

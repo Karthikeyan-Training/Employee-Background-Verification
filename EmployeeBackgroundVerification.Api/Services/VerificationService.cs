@@ -34,6 +34,11 @@ public class VerificationService : IVerificationService
 
             foreach (var doc in docs)
             {
+                if (field == "Address" && IsPanSource(doc.SourceName))
+                {
+                    continue;
+                }
+
                 var value = GetFieldValue(doc.Details, field);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
@@ -108,6 +113,16 @@ public class VerificationService : IVerificationService
         }
 
         return Task.FromResult(result);
+    }
+
+    private static bool IsPanSource(string? sourceName)
+    {
+        if (string.IsNullOrWhiteSpace(sourceName))
+        {
+            return false;
+        }
+
+        return Regex.IsMatch(sourceName, @"(^|[^A-Z])PAN([^A-Z]|$)", RegexOptions.IgnoreCase);
     }
 
     private static string GetFieldValue(DocumentDetails d, string field)

@@ -1,0 +1,37 @@
+CURRICULUM VITAE
+==================================================
+
+Name            : Arjun Mehta
+Date of Birth   : 1991-03-15
+PAN             : DIGCR9874W
+Aadhaar         : 9999 1234 0001
+Address         : 12, Andheri West, Mumbai, Maharashtra 400058
+
+PROFESSIONAL SUMMARY
+------------------------------
+Experienced Software Engineer with a strong academic foundation from IIT Delhi.
+Proven track record at Tata Consultancy Services delivering high-quality solutions
+in a fast-paced enterprise environment.
+
+WORK EXPERIENCE
+------------------------------
+Organisation  : Tata Consultancy Services
+Designation   : Software Engineer
+Duration      : 9 years
+
+EDUCATION
+------------------------------
+Degree        : B.Tech Computer Science
+University    : IIT Delhi
+Year          : 2013
+
+SKILLS
+------------------------------
+C#, Java, Python, SQL, REST APIs, Microservices, Git, Agile
+
+DECLARATION
+------------------------------
+I hereby declare that all the information provided above is true and correct
+to the best of my knowledge and belief.
+Place: Mumbai
+Date : 1991-03-28

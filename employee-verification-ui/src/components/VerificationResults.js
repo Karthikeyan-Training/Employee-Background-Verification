@@ -35,6 +35,53 @@ function formatMs(ms) {
   return ms >= 1000 ? `${(ms / 1000).toFixed(2)} s` : `${Math.round(ms)} ms`;
 }
 
+function normalizeDisplayValue(fieldName, value) {
+  if (!value) {
+    return '';
+  }
+
+  const trimmed = value.trim();
+
+  if (fieldName === 'Address') {
+    return trimmed.replace(/\s+/g, ' ').toUpperCase();
+  }
+
+  return trimmed;
+}
+
+function isPanSource(sourceName) {
+  return /(^|[^a-z])pan([^a-z]|$)/i.test(sourceName || '');
+}
+
+function getRenderableMismatches(mismatchedFields) {
+  return (mismatchedFields || [])
+    .map((mismatch) => {
+      if (mismatch.fieldName !== 'Address') {
+        return mismatch;
+      }
+
+      const filteredEntries = Object.entries(mismatch.valuesBySource || {}).filter(
+        ([sourceName]) => !isPanSource(sourceName)
+      );
+
+      const visibleDistinctValues = new Set(
+        filteredEntries
+          .map(([, value]) => normalizeDisplayValue(mismatch.fieldName, value))
+          .filter(Boolean)
+      );
+
+      if (filteredEntries.length <= 1 || visibleDistinctValues.size <= 1) {
+        return null;
+      }
+
+      return {
+        ...mismatch,
+        valuesBySource: Object.fromEntries(filteredEntries),
+      };
+    })
+    .filter(Boolean);
+}
+
 // ── Sub-components ─────────────────────────────────────────────────────────
 
 function CandidateCard({ data }) {
@@ -60,15 +107,11 @@ function CandidateCard({ data }) {
           </div>
         </div>
         <div className="row g-2 mt-1">
-          <div className="col-sm-4">
-            <small className="text-muted d-block">Report ID</small>
-            <code style={{ fontSize: '0.8rem' }}>{data.reportId || '—'}</code>
-          </div>
-          <div className="col-sm-4">
+          <div className="col-sm-6">
             <small className="text-muted d-block">Completed On</small>
             <span>{data.completedOn ? new Date(data.completedOn).toLocaleString() : '—'}</span>
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-6">
             <small className="text-muted d-block">Total Duration</small>
             <span>{formatMs(data.totalDurationMs)}</span>
           </div>
@@ -81,6 +124,7 @@ function CandidateCard({ data }) {
 function VerificationCard({ verification }) {
   const v = verification || {};
   const color = statusColor(v.status);
+  const renderableMismatches = getRenderableMismatches(v.mismatchedFields);
 
   return (
     <div className="card mb-4">
@@ -108,7 +152,7 @@ function VerificationCard({ verification }) {
           </div>
         )}
 
-        {v.mismatchedFields?.length > 0 && (
+        {renderableMismatches.length > 0 && (
           <div className="mb-3">
             <p className="section-title">Mismatched Fields</p>
             <table className="table table-sm table-bordered mb-0">
@@ -119,7 +163,7 @@ function VerificationCard({ verification }) {
                 </tr>
               </thead>
               <tbody>
-                {v.mismatchedFields.map((m, i) => (
+                {renderableMismatches.map((m, i) => (
                   <tr key={i}>
                     <td><strong>{m.fieldName}</strong></td>
                     <td>

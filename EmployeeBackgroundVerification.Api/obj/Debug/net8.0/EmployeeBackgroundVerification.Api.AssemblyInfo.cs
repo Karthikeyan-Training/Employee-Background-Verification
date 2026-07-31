@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmployeeBackgroundVerification.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e25dd5e3db7dfd20c9e8d2689a5f255ebd51a64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+edb22453e36b3e66aa5afdf04945cf3a6174da5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmployeeBackgroundVerification.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmployeeBackgroundVerification.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

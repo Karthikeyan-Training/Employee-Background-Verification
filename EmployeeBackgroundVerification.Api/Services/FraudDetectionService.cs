@@ -14,11 +14,16 @@ public class FraudDetectionService : IFraudDetectionService
 {
     private readonly FraudDetectionSettings _settings;
     private readonly ILogger<FraudDetectionService> _logger;
+    private readonly ISyntheticDataService _syntheticData;
 
-    public FraudDetectionService(IOptions<FraudDetectionSettings> options, ILogger<FraudDetectionService> logger)
+    public FraudDetectionService(
+        IOptions<FraudDetectionSettings> options,
+        ILogger<FraudDetectionService> logger,
+        ISyntheticDataService syntheticData)
     {
         _settings = options?.Value ?? throw new ArgumentNullException(nameof(options));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _syntheticData = syntheticData ?? throw new ArgumentNullException(nameof(syntheticData));
     }
 
     public Task<FraudResult> AnalyzeAsync(IEnumerable<DocumentSource> documents)
@@ -180,62 +185,66 @@ public class FraudDetectionService : IFraudDetectionService
 
     private void CheckDuplicateDocumentNumbers(List<DocumentSource> docs, FraudResult result)
     {
-        // Check for duplicate Aadhaar
-        var aadhaarCounts = docs
-            .Where(d => !string.IsNullOrWhiteSpace(d.Details.AadhaarNumber))
-            .GroupBy(d => d.Details.AadhaarNumber)
-            .Where(g => g.Count() >= _settings.DuplicateDocumentNumberThreshold)
-            .ToList();
+        var existingRecords = _syntheticData.GetAll();
 
-        foreach (var group in aadhaarCounts)
+        foreach (var doc in docs.Where(d => !string.IsNullOrWhiteSpace(d.Details.AadhaarNumber)))
         {
-            if (group.Count() > 1)
+            var normalizedAadhaar = NormalizeAadhaar(doc.Details.AadhaarNumber);
+            var matches = existingRecords
+                .Where(record => NormalizeAadhaar(record.AadhaarNumber) == normalizedAadhaar)
+                .ToList();
+
+            if (matches.Count > 0)
             {
-                var sources = string.Join(", ", group.Select(d => d.SourceName));
                 var indicator = new FraudIndicator
                 {
                     IndicatorName = "Duplicate Aadhaar",
                     Severity = FraudSeverity.Low,
-                    Description = $"Aadhaar '{group.Key}' appears in multiple documents: {sources}",
+                    Description = $"Aadhaar '{doc.Details.AadhaarNumber}' already exists in employee record(s): {string.Join(", ", matches.Select(r => r.Name))}",
                     Details = new Dictionary<string, object>
                     {
-                        { "aadhaar", group.Key },
-                        { "sources", group.Select(d => d.SourceName).ToList() },
-                        { "count", group.Count() }
+                        { "aadhaar", doc.Details.AadhaarNumber },
+                        { "matchingEmployeeIds", matches.Select(r => r.Id).ToList() },
+                        { "matchingEmployeeNames", matches.Select(r => r.Name).ToList() },
+                        { "source", doc.SourceName }
                     }
                 };
                 result.Indicators.Add(indicator);
             }
         }
 
-        // Check for duplicate PAN
-        var panCounts = docs
-            .Where(d => !string.IsNullOrWhiteSpace(d.Details.PanNumber))
-            .GroupBy(d => d.Details.PanNumber)
-            .Where(g => g.Count() >= _settings.DuplicateDocumentNumberThreshold)
-            .ToList();
-
-        foreach (var group in panCounts)
+        foreach (var doc in docs.Where(d => !string.IsNullOrWhiteSpace(d.Details.PanNumber)))
         {
-            if (group.Count() > 1)
+            var normalizedPan = NormalizePan(doc.Details.PanNumber);
+            var matches = existingRecords
+                .Where(record => NormalizePan(record.PanNumber) == normalizedPan)
+                .ToList();
+
+            if (matches.Count > 0)
             {
-                var sources = string.Join(", ", group.Select(d => d.SourceName));
                 var indicator = new FraudIndicator
                 {
                     IndicatorName = "Duplicate PAN",
                     Severity = FraudSeverity.Low,
-                    Description = $"PAN '{group.Key}' appears in multiple documents: {sources}",
+                    Description = $"PAN '{doc.Details.PanNumber}' already exists in employee record(s): {string.Join(", ", matches.Select(r => r.Name))}",
                     Details = new Dictionary<string, object>
                     {
-                        { "pan", group.Key },
-                        { "sources", group.Select(d => d.SourceName).ToList() },
-                        { "count", group.Count() }
+                        { "pan", doc.Details.PanNumber },
+                        { "matchingEmployeeIds", matches.Select(r => r.Id).ToList() },
+                        { "matchingEmployeeNames", matches.Select(r => r.Name).ToList() },
+                        { "source", doc.SourceName }
                     }
                 };
                 result.Indicators.Add(indicator);
             }
         }
     }
+
+    private static string NormalizeAadhaar(string value) =>
+        Regex.Replace(value ?? string.Empty, "\\s+", string.Empty);
+
+    private static string NormalizePan(string value) =>
+        (value ?? string.Empty).Trim().ToUpperInvariant();
 
     private void AddManualReviewRecommendations(FraudResult result)
     {
